@@ -19,6 +19,7 @@ headers = {
 song_download_url = 'http://music.163.com/weapi/song/enhance/player/url?csrf_token='
 program_download_url = 'http://music.163.com/weapi/song/enhance/player/url/v1?csrf_token='
 
+
 def get_song_url(song_id):
     return 'http://music.163.com/api/song/detail/?ids=[{}]'.format(song_id)
 
@@ -37,3 +38,7 @@ def get_artist_url(artist_id):
 
 def get_playlist_url(playlist_id):
     return 'http://music.163.com/api/v6/playlist/detail?id={}'.format(playlist_id)
+
+
+def get_lyric_url(song_id):
+    return 'http://music.163.com/api/song/lyric?id={}&lv=1'.format(song_id)

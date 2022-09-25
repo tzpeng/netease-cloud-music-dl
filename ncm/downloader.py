@@ -82,16 +82,36 @@ def download_song_by_song(song, download_folder, sub_folder=True, program=False)
     cover_file_name = 'cover_{}.jpg'.format(song_id)
     download_file(cover_url, cover_file_name, song_download_folder)
 
+    # download lyric
+    lyric = api.get_lyric(song_id)
+    lyric_file_name = 'lyric_{}.lrc'.format(song_id)
+    write_file(lyric.encode('utf-8'), lyric_file_name, song_download_folder)
+
     # resize cover
     resize_img(os.path.join(song_download_folder, cover_file_name))
 
     # add metadata for song
     song_file_path = os.path.join(song_download_folder, song_file_name)
     cover_file_path = os.path.join(song_download_folder, cover_file_name)
-    add_metadata_to_song(song_file_path, cover_file_path, song, program)
+    lyric_file_path = os.path.join(song_download_folder, lyric_file_name)
+    add_metadata_to_song(song_file_path, cover_file_path, lyric_file_path, song, program)
 
     # delete cover file
     os.remove(cover_file_path)
+
+    # delete lyric file
+    os.remove(lyric_file_path)
+
+
+def write_file(lyric, file_name, folder):
+    print('Save lyric: ' + file_name)
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+    file_path = os.path.join(folder, file_name)
+    lrc_file = open(file_path, 'wb')
+    lrc_file.write(lyric)
+    lrc_file.close()
+    return False
 
 
 def download_file(file_url, file_name, folder):
